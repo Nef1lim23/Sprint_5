@@ -33,4 +33,4 @@ SUBMIT_LOGIN_BUTTON_XPATH = (By.XPATH, "//button[contains(text(),'Войти в 
 ORDER_BUTTON_TEXT_XPATH = (By.XPATH, "//button[contains(text(),'Оформить заказ')]") # Кнопка Оформить заказ
 OPEN_LOGIN_PAGE_LINK_XPATH = (By.XPATH, "//a[contains(text(),'Войти')]") # Кнока войти
 PASSWORD_RECOVERY_XPATH = (By.XPATH, "//a[contains(text(),'Восстановить пароль')]") # Кнопка восстановления пароля
-ENTRY_FORM_XPATH = (By.XPATH, "//div[@class='Auth_login__3hAey']") # Форма входа в аккаунт
+ENTRY_FORM_XPATH = (By.XPATH, "//div[@class='Auth_login__3hAey']") # Форма авторизации

@@ -1,38 +1,32 @@
-from selenium.webdriver.common.by import By
-from selenium import webdriver
 from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.support import expected_conditions
-
-import Locators
-import helper
-
-
-def test_registration(driver):
-
-    driver.get('https://stellarburgers.nomoreparties.site/register')
-
-    driver.find_element(*Locators.NAME_INPUT_XPATH).send_keys(helper.generate_random_name(2, 12))
-    driver.find_element(*Locators.EMAIL_REGISTRATION_XPATH).send_keys(helper.generate_random_email(3, 10))
-    driver.find_element(*Locators.PASSWORD_INPUT_REGISTRATION_XPATH).send_keys(helper.generate_random_password(6, 12))
-    driver.find_element(*Locators.BUTTON_REGISTRATION_XPATH).click()
-
-    WebDriverWait(driver, 5).until(expected_conditions.visibility_of_element_located(Locators.LOGIN_BUTTON_XPATH))
-
-    assert driver.find_element(*Locators.LOGIN_BUTTON_XPATH).text == 'Войти'
-
-    driver.quit()
+from helper import DataGeneration
+import locators
+from selenium.webdriver.support import expected_conditions as EC
 
 
-def test_registration_invalid_password(driver):
+class TestRegistration:
+    def test_registration(self, driver):
 
-    driver.get('https://stellarburgers.nomoreparties.site/register')
+        driver.get('https://stellarburgers.nomoreparties.site/register')
+        WebDriverWait(driver, 5).until(EC.visibility_of_element_located(locators.ENTRY_FORM_XPATH))
 
-    driver.find_element(*Locators.NAME_INPUT_XPATH).send_keys(helper.generate_random_name(2, 12))
-    driver.find_element(*Locators.EMAIL_REGISTRATION_XPATH).send_keys(helper.generate_random_email(3, 10))
-    driver.find_element(*Locators.PASSWORD_INPUT_REGISTRATION_XPATH).send_keys(helper.generate_random_password(1, 3))
-    driver.find_element(*Locators.BUTTON_REGISTRATION_XPATH).click()
+        driver.find_element(*locators.NAME_INPUT_XPATH).send_keys(DataGeneration.generate_random_name(2, 12))
+        driver.find_element(*locators.EMAIL_REGISTRATION_XPATH).send_keys(DataGeneration.generate_random_email(3, 10))
+        driver.find_element(*locators.PASSWORD_INPUT_REGISTRATION_XPATH).send_keys(DataGeneration.generate_random_password(6, 12))
+        driver.find_element(*locators.BUTTON_REGISTRATION_XPATH).click()
 
-    assert driver.find_element(*Locators.MASSAGE_IS_AN_INCORRECT_PASSWORD).text == 'Некорректный пароль'
+        WebDriverWait(driver, 5).until(EC.visibility_of_element_located(locators.OPEN_LOGIN_PAGE_LINK_XPATH))
 
-    driver.quit()
+        assert driver.find_element(*locators.OPEN_LOGIN_PAGE_LINK_XPATH).text == 'Войти'
 
+    def test_registration_invalid_password(self, driver):
+
+        driver.get('https://stellarburgers.nomoreparties.site/register')
+        WebDriverWait(driver, 5).until(EC.visibility_of_element_located(locators.ENTRY_FORM_XPATH))
+
+        driver.find_element(*locators.NAME_INPUT_XPATH).send_keys(DataGeneration.generate_random_name(2, 12))
+        driver.find_element(*locators.EMAIL_REGISTRATION_XPATH).send_keys(DataGeneration.generate_random_email(3, 10))
+        driver.find_element(*locators.PASSWORD_INPUT_REGISTRATION_XPATH).send_keys(DataGeneration.generate_random_password(1, 3))
+        driver.find_element(*locators.BUTTON_REGISTRATION_XPATH).click()
+
+        assert driver.find_element(*locators.MASSAGE_IS_AN_INCORRECT_PASSWORD).text == 'Некорректный пароль'
